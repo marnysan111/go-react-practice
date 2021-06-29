@@ -1,33 +1,33 @@
 version: '3'
 
 services: 
-    sample_golang:
+    practice_golang:
         build: ./go
         tty: true
         ports:
             - "8080:8080"
-        container_name: sample_golang
+        container_name: practice_golang
         depends_on:
-            - sample_db
-            - sample_react
+            - practice_db
+            - practice_react
         volumes:
             - ./go:/go/src
 
-    sample_db:
+    practice_db:
         build: ./db
         tty: true
         ports: 
             - "3307:3307"
-        container_name: sample_db
+        container_name: practice_db
         environment: 
             MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: sample
+            MYSQL_DATABASE: practice
 
-    sample_react:
+    practice_react:
         build: ./react
         tty: true
         ports: 
             - "3000:3000"
-        container_name: sample_react
+        container_name: practice_react
         volumes: 
             - ./react:/react
