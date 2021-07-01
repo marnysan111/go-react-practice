@@ -5,7 +5,7 @@ import axios from 'axios';
 function App() {
   const [post, setPosts] = useState([])
   useEffect(() => {
-    axios.get('https://jsonplaceholder.typicode.com/posts')
+    axios.get('http://192.168.56.1:8080/api')
     .then(res => {
         setPosts(res.data)
     })
@@ -14,7 +14,7 @@ function App() {
   return (
     <React.Fragment>
         <h1>Todo</h1>
-        {post.map((obj) => <li>{obj.id}：{obj.title}</li>)}
+        {post.message}
     </React.Fragment>
   );
 }
