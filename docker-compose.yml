@@ -30,4 +30,4 @@ services:
             - "3000:3000"
         container_name: practice_react
         volumes: 
-            - ./react:/react
+            - ./react:/usr/src
