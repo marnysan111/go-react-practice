@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -40,11 +41,16 @@ func main() {
 	})
 
 	r.POST("/post", func(c *gin.Context) {
-		var text Todo
-		c.BindJSON(&text)
-		fmt.Println("title is :", text.Title)
-		c.Redirect(301, "http://192.168.1.10:3000")
-		c.Abort()
+		req := Todo{}
+		c.Bind(&req)
+
+		items := Todo{
+			Title: req.Title,
+			Text:  req.Text,
+		}
+		fmt.Println("Title is: ", items.Title)
+		fmt.Println("Text is: ", items.Text)
+		c.Status(http.StatusNoContent)
 	})
 
 	r.Run(":8080")
