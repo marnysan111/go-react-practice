@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
-import { TextField,Button,Grid } from '@material-ui/core/';
+import { TextField,Button,Grid, Box } from '@material-ui/core/';
 
 import Header from './components/header';
 
@@ -42,25 +42,32 @@ function App() {
           })
 
           console.log(todo.title,todo.text)
+          axios.post("http://192.168.1.10:8080/post", {
+            title: todoTitle.value,
+            text: todoText.value
+          })
+          // formの中身を空にする
           todoTitle.value = "";
           todoText.value = "";
-          axios.post("http://192.168.1.10:8080/post", {
-            title: setTodo.title,
-            text: setTodo.text
-          })
         }}>
         <div>
           <Grid container spacing={2}>
-            <Grid item xs={4}> 
-              <TextField label="Title" variant="outlined" id="title"/>
+            <Grid item xs={4}>
+              <Box p={2}>
+                <TextField label="Title" variant="outlined" id="title"/>
+              </Box>
             </Grid>
             <Grid item xs={4}>
-              <TextField label="Text" variant="outlined" id="text" />
+              <Box p={2}>
+                <TextField label="Text" variant="outlined" id="text" />
+              </Box>
             </Grid>
             <Grid item xs={4}>
-              <Button variant="contained" color="primary" type="submit">
-                SEND
-              </Button>
+              <Box p={3}>
+                <Button variant="contained" color="primary" type="submit">
+                  SEND
+                </Button>
+              </Box>
             </Grid>
           </Grid>
         </div>
