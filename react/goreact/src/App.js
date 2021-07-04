@@ -32,12 +32,16 @@ function App() {
             alert("テキストが未入力です")
             return
           }
-          //ここを整理したい気持ち
-          setTodo.title = todoTitle.value
-          setTodo.text = todoText.value
-          //setTodoの使い方わからん
-          //setTodo((t) => {t.title = todoTitle.value})
+          // スプレット構文というらしい https://qiita.com/akisx/items/682a4283c13fe336c547
+          setTodo((t)=>{
+            return {
+              ...t,
+              title: todoTitle.value,
+              text: todoText.value
+            }
+          })
 
+          console.log(todo.title,todo.text)
           todoTitle.value = "";
           todoText.value = "";
           axios.post("http://192.168.1.10:8080/post", {
