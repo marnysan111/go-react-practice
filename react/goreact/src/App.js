@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
-import { TextField,Button,Grid, Box } from '@material-ui/core/';
+import { TextField,Button,Grid,Box,Fab } from '@material-ui/core/';
+import AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
 
 import Header from './components/header';
 
@@ -20,8 +22,12 @@ function App() {
   return (
     <React.Fragment>
       <Header />
+
+
+
+      {/* Todoのフォーム部分 */}
       <Grid container justify="center">
-        <form method="post" action="http://192.168.1.10:8080/post" onSubmit={ e =>{
+        <form method="post"onSubmit={ e =>{
           e.preventDefault();
           const todoTitle = e.target.elements["title"];
           const todoText = e.target.elements["text"];
@@ -42,7 +48,7 @@ function App() {
           })
 
           console.log(todo.title,todo.text)
-          axios.post("http://192.168.1.10:8080/post", {
+          axios.post("http://192.168.56.1:8080/post", {
             title: todoTitle.value,
             text: todoText.value
           })
@@ -56,7 +62,7 @@ function App() {
           <Grid container spacing={2}>
             <Grid item xs={4}>
               <Box p={2}>
-                <TextField label="Title" variant="outlined" id="title"/>
+                <TextField label="Title" variant="outlined" id="title" />
               </Box>
             </Grid>
             <Grid item xs={4}>
