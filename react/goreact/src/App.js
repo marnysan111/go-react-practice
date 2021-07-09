@@ -13,7 +13,7 @@ function App() {
     text: "",
   })
   useEffect(() => {
-    axios.get('http://192.168.1.10:8080/api')
+    axios.get('http://192.168.56.1:8080/select')
     .then(res => {
         setPost(res.data)
     })
@@ -47,7 +47,7 @@ function App() {
           })
 
           console.log(todo.title,todo.text)
-          axios.post("http://192.168.56.1:8080/post", {
+          axios.post("http://192.168.56.1:8080/insert", {
             title: todoTitle.value,
             text: todoText.value
           })

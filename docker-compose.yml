@@ -7,7 +7,7 @@ services:
         ports:
             - "8080:8080"
         container_name: practice_golang
-        depends_on:
+        links:
             - practice_db
             - practice_react
         volumes:
@@ -17,7 +17,7 @@ services:
         build: ./db
         tty: true
         ports: 
-            - "3307:3307"
+            - "3306:3306"
         container_name: practice_db
         environment: 
             MYSQL_ROOT_PASSWORD: root

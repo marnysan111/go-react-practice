@@ -2,19 +2,19 @@ package main
 
 import (
 	"fmt"
+	"goreact/handler"
+	"goreact/status"
 	"net/http"
+	"os"
+	"strconv"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
-type Todo struct {
-	Title string `json:"title"`
-	Text  string `json:"text"`
-}
-
 func main() {
 	r := gin.Default()
+	handler.DBInit()
 
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{
@@ -36,20 +36,55 @@ func main() {
 		},
 	}))
 
-	r.GET("/api", func(c *gin.Context) {
-		c.JSON(200, gin.H{"message": "test"})
+	r.GET("/select", func(c *gin.Context) {
+		todo, err := handler.SelectAllTodo()
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			return
+		}
+		c.JSON(200, gin.H{"todo": todo})
 	})
 
-	r.POST("/post", func(c *gin.Context) {
-		req := Todo{}
+	r.GET("/select/:id", func(c *gin.Context) {
+		n := c.Param("id")
+		id, err := strconv.Atoi(n)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err, "/select/id Error")
+		}
+		todo, err := handler.SelectOneTodo(id)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			return
+		}
+		c.JSON(200, gin.H{"todo": todo})
+	})
+
+	r.POST("/insert", func(c *gin.Context) {
+		req := status.Todo{}
 		c.Bind(&req)
 
-		items := Todo{
+		items := status.Todo{
 			Title: req.Title,
 			Text:  req.Text,
 		}
-		fmt.Println("Title is: ", items.Title)
-		fmt.Println("Text is: ", items.Text)
+		err := handler.InsertTodo(items.Title, items.Text)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err, "Insert Error")
+		}
+		c.Status(http.StatusNoContent)
+	})
+
+	r.POST("/delete/:id", func(c *gin.Context) {
+		n := c.Param("id")
+		id, err := strconv.Atoi(n)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err, "/delete/id Error")
+		}
+		err = handler.DeleteOneTodo(id)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			return
+		}
 		c.Status(http.StatusNoContent)
 	})
 
