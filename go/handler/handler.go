@@ -11,7 +11,7 @@ import (
 )
 
 /* DBに接続する */
-func DBCommect() (*gorm.DB, error) {
+func DBConnect() (*gorm.DB, error) {
 	err := godotenv.Load()
 	if err != nil {
 		return nil, err
@@ -32,9 +32,9 @@ func DBCommect() (*gorm.DB, error) {
 }
 
 func DBInit() {
-	db, err := DBCommect()
+	db, err := DBConnect()
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
+		fmt.Fprintln(os.Stderr, "DBInit connect", err)
 	}
 	dbClose, err := db.DB()
 	if err != nil {
@@ -46,7 +46,7 @@ func DBInit() {
 }
 
 func InsertTodo(title string, text string) error {
-	db, err := DBCommect()
+	db, err := DBConnect()
 	if err != nil {
 		return err
 	}
@@ -60,7 +60,7 @@ func InsertTodo(title string, text string) error {
 }
 
 func SelectAllTodo() ([]status.Todo, error) {
-	db, err := DBCommect()
+	db, err := DBConnect()
 	var todo []status.Todo
 	if err != nil {
 		return todo, err
@@ -76,7 +76,7 @@ func SelectAllTodo() ([]status.Todo, error) {
 }
 
 func SelectOneTodo(id int) (status.Todo, error) {
-	db, err := DBCommect()
+	db, err := DBConnect()
 	var todo status.Todo
 	if err != nil {
 		return todo, err
@@ -94,7 +94,7 @@ func SelectOneTodo(id int) (status.Todo, error) {
 }
 
 func DeleteOneTodo(id int) error {
-	db, err := DBCommect()
+	db, err := DBConnect()
 	var todo status.Todo
 	if err != nil {
 		return err

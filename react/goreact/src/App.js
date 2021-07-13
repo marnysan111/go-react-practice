@@ -46,7 +46,6 @@ function App() {
             }
           })
 
-          console.log(todo.title,todo.text)
           axios.post("http://192.168.56.1:8080/insert", {
             title: todoTitle.value,
             text: todoText.value

@@ -1,6 +1,16 @@
 version: '3'
 
 services: 
+    practice_db:
+        build: ./db
+        tty: true
+        ports: 
+            - "3306:3306"
+        container_name: practice_db
+        environment: 
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: practice
+
     practice_golang:
         build: ./go
         tty: true
@@ -12,17 +22,7 @@ services:
             - practice_react
         volumes:
             - ./go:/go/src
-
-    practice_db:
-        build: ./db
-        tty: true
-        ports: 
-            - "3306:3306"
-        container_name: practice_db
-        environment: 
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: practice
-
+            
     practice_react:
         build: ./react
         tty: true
