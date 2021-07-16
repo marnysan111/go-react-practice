@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
-import { TextField,Button,Grid,Box,Fab } from '@material-ui/core/';
+import { TextField,Button,Grid,Box,Fab} from '@material-ui/core/';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
+
+import todoOutput from './components/output'
 
 import Header from './components/header';
 
@@ -18,7 +20,6 @@ function App() {
         setPost(res.data)
     })
   }, [])
-
   return (
     <React.Fragment>
       <Header />
@@ -78,6 +79,13 @@ function App() {
           </Grid>
         </div>
         </form>
+      </Grid>
+
+      {/* アウトプット部分 */}
+      <Grid container justify="center">
+        <todoOutput 
+          text = "aaa"
+        />
       </Grid>
     </React.Fragment>
   );
