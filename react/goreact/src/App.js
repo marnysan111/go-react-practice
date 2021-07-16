@@ -4,7 +4,7 @@ import { TextField,Button,Grid,Box,Fab} from '@material-ui/core/';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 
-import todoOutput from './components/output'
+import TodoOutput from './components/output';
 
 import Header from './components/header';
 
@@ -17,9 +17,12 @@ function App() {
   useEffect(() => {
     axios.get('http://192.168.56.1:8080/select')
     .then(res => {
-        setPost(res.data)
+        setPost(res.data.todo)
     })
   }, [])
+
+
+
   return (
     <React.Fragment>
       <Header />
@@ -83,9 +86,11 @@ function App() {
 
       {/* アウトプット部分 */}
       <Grid container justify="center">
-        <todoOutput 
-          text = "aaa"
-        />
+        {post.map((todo) => 
+          <TodoOutput 
+            title={todo.title} 
+            text={todo.text} 
+          />)}
       </Grid>
     </React.Fragment>
   );
