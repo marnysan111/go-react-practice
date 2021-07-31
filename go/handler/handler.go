@@ -3,12 +3,16 @@ package handler
 import (
 	"fmt"
 	"goreact/status"
+	"log"
 	"os"
+	"time"
 
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
+
+var count = 0
 
 /* DBに接続する */
 func DBConnect() (*gorm.DB, error) {
@@ -24,8 +28,16 @@ func DBConnect() (*gorm.DB, error) {
 	db, err := gorm.Open(mysql.Open(connect), &gorm.Config{
 		DisableForeignKeyConstraintWhenMigrating: true,
 	})
+
 	if err != nil {
-		return nil, err
+		fmt.Fprintln(os.Stderr, "Not ready..., Retyr Connecting...")
+		time.Sleep(time.Second)
+		count++
+		log.Println(count)
+		if count > 30 {
+			return nil, err
+		}
+		return DBConnect()
 	}
 
 	return db, nil

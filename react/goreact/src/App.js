@@ -15,7 +15,7 @@ function App() {
     text: "",
   })
   useEffect(() => {
-    axios.get('http://192.168.56.1:8080/select')
+    axios.get('http://192.168.1.10:8080/select')
     .then(res => {
         setPost(res.data.todo)
     })
@@ -50,13 +50,15 @@ function App() {
             }
           })
 
-          axios.post("http://192.168.56.1:8080/insert", {
+          axios.post("http://192.168.1.10:8080/insert", {
             title: todoTitle.value,
             text: todoText.value
           })
           // formの中身を空にする
           todoTitle.value = "";
           todoText.value = "";
+
+
         }}>
 
         {/* Todoのインプット部分 */}
@@ -91,6 +93,10 @@ function App() {
             title={todo.title} 
             text={todo.text} 
           />)}
+
+
+
+
       </Grid>
     </React.Fragment>
   );
